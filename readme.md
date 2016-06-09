@@ -1,1 +1,1 @@
-# Kimtajo Laravel 5.2 Simple CMS
+# KimTaJo Simple CMS(for Laravel 5.2)
