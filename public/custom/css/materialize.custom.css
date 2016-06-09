@@ -1,0 +1,53 @@
+body{
+	background-color: #fcfcfc;
+}
+.nav-wrapper{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.parallax-container{
+	color: rgba(255, 255, 255, 1);
+}
+#logo-container {
+	/*height:57px;*/
+	padding: 0 0;
+	line-height: 15px;
+	text-align: center;
+	margin-top: 32px;
+	margin-bottom: 32px;
+}
+#logo-container:hover{
+	background-color: transparent;
+}
+ul.side-nav.fixed li{
+	line-height: 30px;
+}
+
+
+main{
+	padding-left:240px;
+	padding-top:30px;
+}
+.myface{
+	width:50px;
+	height:50px;
+}
+@media only screen and (min-width: 993px){
+	.container {
+		width:85%;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+	main{
+		padding-left:0px;
+	}
+}
+
+.waves-effect.waves-blue .waves-ripple {
+	background-color: rgba(33, 150, 243, 0.7);
+}
+
+.side-nav .collapsible-header, .side-nav.fixed .collapsible-header{
+	line-height: 64px;
+}
