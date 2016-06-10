@@ -20,3 +20,7 @@ Route::auth();
 Route::get('/home', 'HomeController@index');
 
 Route::resource('introduce', 'IntroduceController');
+Route::resource('skill', 'SkillController');
+Route::resource('board', 'BoardController');
+Route::resource('portfolio', 'BoardController');
+Route::resource('contact', 'ContactController');

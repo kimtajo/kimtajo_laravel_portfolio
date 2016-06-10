@@ -1,10 +1,6 @@
 @extends('layouts.materialize')
 @section('title', 'Home')
 
-@section('navbar')
-	@parent
-
-@stop
 
 @section('customCSS')
 	<style>
@@ -71,6 +67,7 @@
 	<script>
 		$(document).ready(function () {
 			$('.parallax').parallax();
+			$('.scrollspy').scrollSpy();
 		});
 	</script>
 @endsection
