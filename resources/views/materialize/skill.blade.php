@@ -1,12 +1,8 @@
 @extends('layouts.materialize')
-@section('title', 'Introduce')
+@section('title', 'Skill')
 
 @section('content')
 	<div class="container">
-		<div class="row center">
-			<h1 class="blue-text">TaJo Kim</h1>
-		</div>
-
 		<ul class="collapsible" data-collapsible="accordion">
 			<li>
 				<div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>

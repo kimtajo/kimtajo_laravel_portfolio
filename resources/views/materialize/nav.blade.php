@@ -1,4 +1,13 @@
 <header>
+	@section('navbar')
+	<nav>
+		<div class="nav-wrapper blue">
+			<a href="#" class="brand-logo center">@yield('title')</a>
+			<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+		</div>
+	</nav>
+	@show
+
 	<ul id="nav-mobile" class="side-nav fixed section table-of-contents">
 		<li class="logo">
 			<a id="logo-container" href="/" class="blue-text">

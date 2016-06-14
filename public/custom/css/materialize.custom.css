@@ -1,9 +1,13 @@
 body{
 	background-color: #fcfcfc;
 }
-.nav-wrapper{
+nav{
+	padding-left: 240px;
+	/*padding-right: 10px;*/
+
+}
+nav .button-collapse{
 	padding-left: 10px;
-	padding-right: 10px;
 }
 .parallax-container{
 	color: rgba(255, 255, 255, 1);
@@ -26,7 +30,6 @@ ul.side-nav.fixed li{
 
 main{
 	padding-left:240px;
-	padding-top:30px;
 }
 .myface{
 	width:50px;
@@ -39,7 +42,7 @@ main{
 }
 
 @media only screen and (max-width: 992px) {
-	main{
+	main, nav{
 		padding-left:0px;
 	}
 }
@@ -50,4 +53,16 @@ main{
 
 .side-nav .collapsible-header, .side-nav.fixed .collapsible-header{
 	line-height: 64px;
+}
+
+div.error{
+	position: relative;
+	top: -1rem;
+	left: 0rem;
+	font-size: 0.8rem;
+	color: #FF4081;
+	-webkit-transform: translateY(0%);
+	-ms-transform: translateY(0%);
+	-o-transform: translateY(0%);
+	transform: translateY(0%)
 }

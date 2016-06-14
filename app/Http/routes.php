@@ -24,3 +24,7 @@ Route::resource('skill', 'SkillController');
 Route::resource('board', 'BoardController');
 Route::resource('portfolio', 'BoardController');
 Route::resource('contact', 'ContactController');
+
+//Route::get('upload/uploadImage', 'FileUploadController@image_upload');
+Route::resource('upload', 'FileUploadController');
+Route::post('upload/imageUpload', 'FileUploadController@imageUpload')->name('imageUpload');

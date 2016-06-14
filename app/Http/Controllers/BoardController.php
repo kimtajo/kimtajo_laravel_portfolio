@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+
 class BoardController extends Controller
 {
     /**
@@ -57,6 +58,14 @@ class BoardController extends Controller
     public function store(Request $request)
     {
         //
+	    $vaildation = \Validator::make($request->all(), [
+		    'board_name'=>'required',
+		    'title'=>'required',
+		    'content'=>'required',
+	    ]);
+		$redirectURL = $request->get('redirect_url');
+
+	    return redirect($redirectURL)->withInput()->withErrors($vaildation);
     }
 
     /**

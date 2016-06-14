@@ -10,20 +10,27 @@
 	</style>
 @endsection
 
-@section('content')
-	<!-- parallax -->
-	<div class="parallax-container">
-		<div class="section no-pad-bot" id="parallax-text">
-			<div class="container">
-				<h1 class="header center blue-text darken-4" id="parallax-header"></h1>
-				<div class="row center" id="parallax-content">
-					<h5 class="header col s12 light"></h5>
-				</div>
+@section('parallax')
+<!-- parallax -->
+<div class="parallax-container">
+	<div class="section no-pad-bot" id="parallax-text">
+		<div class="container">
+			<h1 class="header center blue-text darken-4" id="parallax-header"></h1>
+			<div class="row center" id="parallax-content">
+				<h5 class="header col s12 light"></h5>
 			</div>
 		</div>
-		<div class="parallax">{!! Html::image('test/img/background.jpg') !!}</div>
 	</div>
-	<!-- /.parallax -->
+	<div class="parallax">{!! Html::image('test/img/background.jpg') !!}</div>
+</div>
+<!-- /.parallax -->
+@endsection
+@section('navbar')
+
+@endsection
+
+@section('content')
+
 
 	{{--section 1--}}
 	<div class="container">
