@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Seoul',
 
     /*
     |--------------------------------------------------------------------------
@@ -164,7 +164,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class, // ide-helper
 	    Collective\Html\HtmlServiceProvider::class, // https://laravelcollective.com/docs/5.2/html
 	    App\Providers\HelperServiceProvider::class,
-
+	    Intervention\Image\ImageServiceProvider::class,
 
 
     ],
@@ -215,6 +215,8 @@ return [
 	    'Form' => Collective\Html\FormFacade::class,
 	    'Html' => Collective\Html\HtmlFacade::class,
 	    'Tajo' => App\Helpers\TajoHelpers::class,
+	    'Image' => Intervention\Image\Facades\Image::class,
+
 
     ],
 

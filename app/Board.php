@@ -13,5 +13,5 @@ class Board extends Model
 {
     //
 	protected $fillable = ['board_name', 'title', 'content', 'visited_at'];
-
+	
 }

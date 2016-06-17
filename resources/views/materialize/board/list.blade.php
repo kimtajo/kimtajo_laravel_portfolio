@@ -7,18 +7,25 @@
 	<div class="row">
 		@if(!$boards->isEmpty())
 			@foreach($boards as $board)
-				<div class="col s3">
+
+				<div class="col s6">
 					<div class="card">
-						<div class="card-image">
-							{!! Html::image('test/img/sample-1.jpg') !!}
-							<span class="card-title">카드 타이틀</span>
+						<div class="card-image waves-effect waves-block waves-light">
+							{!! Html::image($board->thumbnail, 'alt', ['class'=>'activator']) !!}
 						</div>
-					</div>
-					<div class="card-content">
-						<p>카드카드카드다다다~~~</p>
-					</div>
-					<div class="card-action">
-						<a href="#">자세히</a>
+						<div class="card-content">
+							<span class="card-title activator grey-text text-darken-4">
+								{!! $board->title !!}
+								<i class="material-icons right">more_vert</i></span>
+							</span>
+							<p>
+								<a href="#">자세히</a>
+							</p>
+						</div>
+						<div class="card-reveal">
+							<span class="card-title grey-text text-darken-4">{!! $board->title !!}<i class="material-icons right">close</i></span>
+							<p>{!! ($board->content) !!}</p>
+						</div>
 					</div>
 				</div>
 			@endforeach

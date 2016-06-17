@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\Tag;
+use App\Term;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Mews\Purifier\Purifier;
 
 
 class BoardController extends Controller
@@ -31,7 +34,7 @@ class BoardController extends Controller
 	    }
 
 	    $boards = Board::where('board_name', $search)->orderBy('updated_at', 'desc')->paginate(5);
-
+	    
 	    return view('materialize.board.list', compact('boards', 'title', 'search'));
     }
 
@@ -57,16 +60,38 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
-        //
-	    $vaildation = \Validator::make($request->all(), [
-		    'board_name'=>'required',
-		    'title'=>'required',
-		    'content'=>'required',
-	    ]);
-		$redirectURL = $request->get('redirect_url');
 
-	    return redirect($redirectURL)->withInput()->withErrors($vaildation);
+
+		$board = new Board;
+	    $board->title = $request->input('title');
+	    $board->content = $request->input('content');
+	    $board->board_name = $request->input('board_name');
+	    $board->save();
+
+	    if($request->hasFile('thumbnail')){
+		    FileUploadController::thumbnailUpload($request->file('thumbnail'), $board->id);
+	    }
+
+	    if($request->has('startDate') && $request->has('endDate')){
+			$term = new Term;
+		    $term->board_id = $board->id;
+		    $term->start_date = $request->input('startDate_submit');
+		    $term->end_date = $request->input('endDate_submit');
+		    $term->save();
+	    }
+	    if($request->has('tags')){
+		    $tags = explode(',', trim($request->input('tags')));
+
+		    foreach($tags as $myTag){
+			    Tag::firstOrCreate(['board_id'=>$board->id, 'tag_name'=>strtolower(trim($myTag))]);
+
+			}
+	    }
+	    return redirect(url($request->input('board_name')));
+
     }
+
+
 
     /**
      * Display the specified resource.
