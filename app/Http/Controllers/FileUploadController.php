@@ -116,19 +116,16 @@ class FileUploadController extends Controller
 	public static function thumbnailUpload(UploadedFile $image, $board_id, $size = 700){
 
 		$thumbnailPath = "uploadedFile/image/thumbnail/".$size; // 업로드 될 위치
-//		$originalPath = public_path("uploadedFile/image/thumbnail/original"); // 업로드 될 위치
+
 		$extension = $image->getClientOriginalExtension(); // 파일 확장자
 
 		$fileName = sha1(time().time());
 		$thumbnailName = $fileName."_".$size.".".$extension;
-//		$originalName = $image->getClientOriginalName().".".$extension;
+
 		if(!File::exists($thumbnailPath)){
 			File::makeDirectory($thumbnailPath);
 		}
 
-//		if(!File::exists($originalPath)){
-//			File::makeDirectory($originalPath);
-//		}
 
 		$thumbnail = Image::make($image->getRealPath());
 		$thumbnailWidth = $thumbnail->width();
@@ -149,15 +146,11 @@ class FileUploadController extends Controller
 			$thumbnail->save($thumbnailPath.'/'.$thumbnailName);
 		}
 
-//		Image::make($image->getRealPath())->resize(200, 300)->save($thumbnailPath.'/'.$thumbnailName);
 
-//		$image->move($originalPath, $originalName);
 		$url = asset($thumbnailPath).'/'.$thumbnailName;
 		$board = new Board;
 		$board->where('board_id', $board_id)->update(['thumbnail'=>$url]);
-		echo $url;
-		echo $thumbnailName;
-		
+
 	}
 
 	private function _insertDatabase($board_name, $destination, $fileName){

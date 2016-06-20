@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\Helpers\TajoHelpers;
 use App\Tag;
 use App\Term;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Mews\Purifier\Purifier;
+use Illuminate\Routing\ResponseFactory;
 
 
 class BoardController extends Controller
@@ -21,21 +22,21 @@ class BoardController extends Controller
     public function index(Request $request)
     {
         //
-	    $search = '';
+	    $type = '';
 	    $title = '';
 	    if($request->is('portfolio')){
-		    $search = 'portfolio';
+		    $type = 'portfolio';
 			$title = 'Portfolio';
 	    }
 
 	    else if($request->is('board')){
-		    $search = 'board';
+		    $type = 'board';
 		    $title = 'Board';
 	    }
 
-	    $boards = Board::where('board_name', $search)->orderBy('updated_at', 'desc')->paginate(5);
-	    
-	    return view('materialize.board.list', compact('boards', 'title', 'search'));
+	    $boards = Board::where('board_name', $type)->orderBy('board_id', 'desc')->paginate(4);
+
+	    return view('materialize.board.list', compact('boards', 'title', 'type'));
     }
 
     /**
@@ -45,6 +46,7 @@ class BoardController extends Controller
      */
     public function create(Request $request)
     {
+
 	    $type = $request->get('type');
 
 		return view('materialize.board.create', compact('type'));
@@ -69,12 +71,13 @@ class BoardController extends Controller
 	    $board->save();
 
 	    if($request->hasFile('thumbnail')){
-		    FileUploadController::thumbnailUpload($request->file('thumbnail'), $board->id);
+		    FileUploadController::thumbnailUpload($request->file('thumbnail'), $board->board_id);
 	    }
 
 	    if($request->has('startDate') && $request->has('endDate')){
+
 			$term = new Term;
-		    $term->board_id = $board->id;
+		    $term->board_id = $board->board_id;
 		    $term->start_date = $request->input('startDate_submit');
 		    $term->end_date = $request->input('endDate_submit');
 		    $term->save();
@@ -83,11 +86,10 @@ class BoardController extends Controller
 		    $tags = explode(',', trim($request->input('tags')));
 
 		    foreach($tags as $myTag){
-			    Tag::firstOrCreate(['board_id'=>$board->id, 'tag_name'=>strtolower(trim($myTag))]);
-
+			    Tag::firstOrCreate(['board_id'=>$board->board_id, 'tag_name'=>strtolower(trim($myTag))]);
 			}
 	    }
-	    return redirect(url($request->input('board_name')));
+	    return redirect(route($board->board_name.'.index'));
 
     }
 
@@ -102,6 +104,20 @@ class BoardController extends Controller
     public function show($id)
     {
         //
+		if(\Request::has('page'))
+	        $page = \Request::input('page');
+	    else
+		    $page = 1;
+
+	    $board = Board::find($id);
+
+	    $type = $board->board_name;
+	    if($type == 'portfolio')
+		    $term = Board::find($id)->terms()->first();
+
+	    $tags = Board::find($id)->tags()->getResults();
+
+		return view('materialize.board.view', compact('board', 'type', 'term', 'tags', 'page'));
     }
 
     /**
@@ -112,7 +128,24 @@ class BoardController extends Controller
      */
     public function edit($id)
     {
-        //
+	    if(\Request::has('page'))
+		    $page = \Request::input('page');
+	    else
+		    $page = 1;
+
+	    $board = Board::find($id);
+        $terms = Board::find($id)->terms()->getResults();
+	    $tags = Board::find($id)->tags()->getResults();
+	    $cnt = $tags->count();
+	    $tag_text = '';
+	    $i = 0;
+	    foreach($tags as $tag){
+			$tag_text .= $tag->tag_name;
+		    if(++$i != $cnt)
+			    $tag_text .= ", ";
+	    }
+		$type = $board->board_name;
+	    return view('materialize.board.edit', compact('board', 'terms', 'tag_text', 'type', 'page'));
     }
 
     /**
@@ -124,7 +157,47 @@ class BoardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+//	    return $request->all();
+	    if($request->has('page'))
+		    $page = $request->input('page');
+	    else
+		    $page = 1;
+
+	    $board = Board::findOrFail($id);
+	    $board->title = $request->input('title');
+	    $board->content = $request->input('content');
+		$board->save();
+		$type = $board->board_name;
+
+	    if($request->has('startDate_submit') && $request->has('endDate_submit')){
+		    $term = Term::where('board_id', $id)->first();
+		    $term->start_date = $request->input('startDate_submit');
+		    $term->end_date = $request->input('endDate_submit');
+		    $term->save();
+	    }
+	    else{
+		    Term::where('board_id', $id)->delete();
+
+	    }
+
+	    if($request->has('tags')){
+		    $input_tags = explode(',', preg_replace("/\s| /", "", $request->input('tags')));
+			$save_tags = Tag::where('board_id', $id)->pluck('tag_name')->all();
+
+		    $insert_tags = TajoHelpers::compareCollection($input_tags, $save_tags, 'insert');
+		    $delete_tags = TajoHelpers::compareCollection($input_tags, $save_tags, 'delete');
+
+		    foreach ($delete_tags as $tag){
+				Tag::where(['board_id'=>$id, 'tag_name'=>$tag])->delete();
+		    }
+		    foreach ($insert_tags as $tag){
+			    Tag::firstOrCreate(['board_id'=>$id, 'tag_name'=>strtolower(trim($tag))]);
+		    }
+
+	    }
+
+	    return redirect(route($board->board_name.'.show', $id)."?page=".$page);
+	    
     }
 
     /**
@@ -135,6 +208,17 @@ class BoardController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    $board = Board::findOrFail($id);
+	    $type = $board->board_name;
+	    if(!(\Auth::check()))
+		    return redirect(route($type.'.index'));
+
+	    $user = \Request::user();
+	    if($user->id != 1)
+		    return redirect(route($type.'.index'));
+	    $board->delete();
+
+	    return redirect(route($type.'.index'));
+
     }
 }

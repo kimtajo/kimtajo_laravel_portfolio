@@ -26,26 +26,32 @@
 		<li class="{!! Tajo::setActive('portfolio') !!}"><a href="{!! url('portfolio') !!}" class="waves-effect waves-blue"><i class="fa fa-file-text"></i> Portfolio</a></li>
 		<li class="{!! Tajo::setActive('board') !!}"><a href="{!! url('board') !!}" class="waves-effect waves-blue"><i class="fa fa-file-text"></i> Board</a></li>
 		<li class="{!! Tajo::setActive('contact') !!}"><a href="{!! url('contact') !!}" class="waves-effect waves-blue"><i class="fa fa-envelope"></i> Contact</a></li>
-		<li class="no-padding">
-			<ul class="collapsible collapsible-accordion">
-				<li>
-					<a class="collapsible-header">Admin Menu<i class="mdi-navigation-arrow-drop-down"></i></a>
-					<div class="collapsible-body">
-						<ul>
-							<li><a href="#!"><i class="fa fa-sign-in"></i> Login</a></li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</li>
+		@if (Auth::guest())
+			<li><a href="{!! url('login') !!}" class="waves-effect waves-blue"><i class="fa fa-sign-in"></i> Login</a></li>
+		@else
+			<li><a href="{!! url('/auth/logout') !!}" class="waves-effect waves-blue"><i class="fa fa-sign-out"></i>{{ Auth::user()->name }}'s Logout</a></li>
+		@endif
+		{{--<li class="no-padding">--}}
+			{{--<ul class="collapsible collapsible-accordion">--}}
+				{{--<li>--}}
+					{{--<a class="collapsible-header">Admin Menu<i class="mdi-navigation-arrow-drop-down"></i></a>--}}
+					{{--<div class="collapsible-body">--}}
+						{{--<ul>--}}
+							{{--<li><a href="#!"><i class="fa fa-sign-in"></i> Login</a></li>--}}
+						{{--</ul>--}}
+					{{--</div>--}}
+				{{--</li>--}}
+			{{--</ul>--}}
+		{{--</li>--}}
 	</ul>
 </header>
-<div class="fixed-action-btn hide-on-large-only" style="bottom: 45px; right: 24px;">
-	<a class="btn-floating btn-large red">
-		<i class="large material-icons">add</i>
-	</a>
-	<ul>
-		<li><a data-activates="nav-mobile" class="btn-floating green button-collapse"><i class="material-icons">menu</i></a></li>
-		<li><a class="btn-floating yellow darken-1"><i class="material-icons">mode_edit</i></a></li>
-	</ul>
-</div>
+
+{{--<div class="fixed-action-btn hide-on-large-only" style="bottom: 45px; right: 24px;">--}}
+	{{--<a class="btn-floating btn-large red">--}}
+		{{--<i class="large material-icons">add</i>--}}
+	{{--</a>--}}
+	{{--<ul>--}}
+		{{--<li><a data-activates="nav-mobile" class="btn-floating green button-collapse"><i class="material-icons">menu</i></a></li>--}}
+		{{--<li><a class="btn-floating yellow darken-1"><i class="material-icons">mode_edit</i></a></li>--}}
+	{{--</ul>--}}
+{{--</div>--}}
