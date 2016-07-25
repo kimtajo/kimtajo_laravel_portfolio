@@ -21,11 +21,11 @@
 				</div>
 			</a>
 		</li>
-		<li class="{!! Tajo::setActive('introduce') !!}"><a href="{!! url('introduce') !!}" class="waves-effect waves-blue"><i class="fa fa-user"></i> Introduce</a></li>
-		<li class="{!! Tajo::setActive('skill') !!}"><a href="{!! url('skill') !!}" class="waves-effect waves-blue"><i class="fa fa-pie-chart"></i> Skill</a></li>
+		{{--<li class="{!! Tajo::setActive('introduce') !!}"><a href="{!! url('introduce') !!}" class="waves-effect waves-blue"><i class="fa fa-user"></i> Introduce</a></li>--}}
+		{{--<li class="{!! Tajo::setActive('skill') !!}"><a href="{!! url('skill') !!}" class="waves-effect waves-blue"><i class="fa fa-pie-chart"></i> Skill</a></li>--}}
 		<li class="{!! Tajo::setActive('portfolio') !!}"><a href="{!! url('portfolio') !!}" class="waves-effect waves-blue"><i class="fa fa-file-text"></i> Portfolio</a></li>
-		<li class="{!! Tajo::setActive('board') !!}"><a href="{!! url('board') !!}" class="waves-effect waves-blue"><i class="fa fa-file-text"></i> Board</a></li>
-		<li class="{!! Tajo::setActive('contact') !!}"><a href="{!! url('contact') !!}" class="waves-effect waves-blue"><i class="fa fa-envelope"></i> Contact</a></li>
+		{{--<li class="{!! Tajo::setActive('board') !!}"><a href="{!! url('board') !!}" class="waves-effect waves-blue"><i class="fa fa-file-text"></i> Board</a></li>--}}
+		{{--<li class="{!! Tajo::setActive('contact') !!}"><a href="{!! url('contact') !!}" class="waves-effect waves-blue"><i class="fa fa-envelope"></i> Contact</a></li>--}}
 		@if (Auth::guest())
 			<li><a href="{!! url('login') !!}" class="waves-effect waves-blue"><i class="fa fa-sign-in"></i> Login</a></li>
 		@else

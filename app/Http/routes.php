@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('materialize.home');
+    return redirect(url('/portfolio'));
 });
 
 Route::auth();
